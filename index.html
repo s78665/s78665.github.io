@@ -54,12 +54,14 @@
             border-radius: var(--border-radius);
             padding: 25px;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05); /* Subtle shadow */
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            /* Added transform for smooth hover effect */
+            transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.3s ease;
         }
 
+        /* Theme Tweak 3: Subtle Scale-up Hover Effect */
         .bento-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            transform: scale(1.01); /* Scales up by 1% */
+            box-shadow: 0 12px 20px -5px rgba(0, 0, 0, 0.15);
         }
 
         /* Typography within Cards */
@@ -128,8 +130,48 @@
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+            
+            /* --- BACKGROUND IMAGE IMPLEMENTATION --- */
+            background-image: url('bg.jpg'); /* Sets the image */
+            background-size: cover; /* Ensures image covers the whole area */
+            background-position: center; /* Centers the image */
+            position: relative; /* Essential for overlay and z-index */
+            overflow: hidden; 
         }
         
+        /* Overlay for text readability (set bg.jpg as background) */
+        #card-profile::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.4); /* Dark semi-transparent layer (40% opacity) */
+            border-radius: var(--border-radius);
+            z-index: 1; /* Keep the overlay beneath the text */
+        }
+
+        /* Ensure all profile content sits above the overlay */
+        #card-profile > div {
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Adjust colors for text on a darker background */
+        #card-profile .card-subheader,
+        #card-profile .large-text,
+        #card-profile .tagline,
+        #card-profile .card-detail,
+        #card-profile .card-title {
+            color: #FFFFFF; /* White text for maximum contrast */
+        }
+
+        #card-profile .accent-text {
+            color: #B3E0FF; /* Lighter blue accent for contrast */
+        }
+
+        /* Functional Links Styling */
         .social-links a {
             color: var(--color-accent);
             text-decoration: none;
@@ -137,8 +179,13 @@
             margin-right: 15px;
             transition: color 0.2s ease;
         }
-        .social-links a:hover {
-            color: var(--color-text-primary);
+        
+        /* Make links visible on dark background */
+        #card-profile .social-links a {
+            color: #B3E0FF;
+        }
+        #card-profile .social-links a:hover {
+            color: #FFFFFF;
         }
 
         /* Card 2 (Location): Small box (1x1) */
@@ -161,8 +208,14 @@
 
         /* Card 5 (Hobby): Small box (1x1) */
         #card-hobby {
-            grid-column: span 1;
-            grid-row: span 1;
+            grid-column: 3 / span 1;
+            grid-row: 2 / span 1;
+        }
+        
+        /* Card 7 (Reflection/New Card): Small box (1x1) */
+        #card-reflection {
+            grid-column: 4 / span 1;
+            grid-row: 2 / span 1;
         }
 
         /* Card 6 (Playlist): Wide box at the bottom (4x1) */
@@ -189,23 +242,23 @@
         /* --- Rule 2: Mobile Responsiveness (Media Query) --- */
         @media (max-width: 768px) {
             body {
-                padding: var(--spacing) 10px; /* Slightly less padding on small screens */
+                padding: var(--spacing) 10px; 
             }
             
             .bento-grid-container {
                 /* Stacked vertically: 1 column */
                 grid-template-columns: 1fr;
-                gap: 15px; /* Slightly tighter gap on mobile */
+                gap: 15px; 
             }
 
             /* All cards should span the full width of the single column */
             .bento-card {
-                grid-column: 1 / -1 !important; /* Forces all cards to full width */
-                grid-row: auto !important; /* Reverts explicit row spans */
+                grid-column: 1 / -1 !important; 
+                grid-row: auto !important; 
             }
             
             .large-text {
-                font-size: 2rem; /* Shrink large text on mobile */
+                font-size: 2rem; 
             }
         }
 
@@ -225,16 +278,16 @@
             </div>
             <div class="social-links">
                 <p class="card-title" style="margin-bottom: 5px; border-bottom: none;">Connect</p>
-                <a href="#">LinkedIn</a>
-                <a href="#">GitHub</a>
-                <a href="#">UMT Portal</a>
+                <a href="https://github.com/s78665" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                <a href="https://github.com/s78665" target="_blank" rel="noopener noreferrer">GitHub</a>
+                <a href="https://github.com/s78665" target="_blank" rel="noopener noreferrer">UMT Portal</a>
             </div>
         </div>
 
         <div id="card-location" class="bento-card">
             <p class="card-subheader">Location & Time</p>
             <p class="card-detail">Campus: <span class="accent-text">UMT, Kuala Nerus</span></p>
-            <p class="card-detail">Current Time: <span class="accent-text">2:27 PM</span></p>
+            <p class="card-detail">Current Time: <span class="accent-text">4:00 PM</span></p>
             <p class="card-detail" style="font-size: 0.8rem; margin-top: 15px;">Kuala Terengganu, MY</p>
         </div>
         
@@ -266,11 +319,24 @@
             <p class="card-detail" style="margin-top: 15px;"><span class="accent-text">Activity:</span> Wellness & Fitness</p>
         </div>
         
+        <div id="card-reflection" class="bento-card">
+            <p class="card-subheader">Personal Mission</p>
+            <p class="card-title">Why Food Tech Matters in Malaysia</p>
+            <p class="card-detail">
+                Sustainable food security is crucial for our future. By optimizing local processing methods, we can reduce waste and improve nutrition.
+            </p>
+            <p class="card-detail" style="margin-top: 15px;"><span class="accent-text">Focus:</span> Sustainability</p>
+        </div>
+        
         <div id="card-playlist" class="bento-card">
             <p class="card-subheader">Current Jam</p>
             <p class="card-title">Chill R&B for Focus</p>
             <p class="card-detail">
-                Placeholder for an embedded music player or a simple link to a dedicated playlist.
+                <iframe style="border-radius:12px"
+src="https://open.spotify.com/embed/playlist/0vvXsWCC9xrXsKd4FyS8kM?ut
+m_source=generator&theme=0" width="100%" height="152" frameBorder="0"
+allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media;
+fullscreen; picture-in-picture" loading="lazy"></iframe>
             </p>
             <a href="#" class="accent-text" style="font-weight: 700;">Open Study Playlist on YouTube Music</a>
         </div>
