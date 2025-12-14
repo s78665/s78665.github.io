@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Bento Grid Landing Page - Akifina</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            /* Rule 4: Clean, scientific, modern color palette */
+            --color-background: #F4F7FA; /* Soft light grey/white */
+            --color-surface: #FFFFFF; /* Pure white for cards */
+            --color-text-primary: #1C2B3A; /* Dark charcoal */
+            --color-text-secondary: #6B7C8F; /* Soft grey */
+            /* UPDATED THEME: Deep Ocean Blue for UMT theme */
+            --color-accent: #004d99; /* Deep Ocean Blue */
+            --color-border: #E0E7EF; /* Subtle light border */
+            --border-radius: 12px;
+            --spacing: 20px;
+        }
+
+        /* Basic Reset and Font Application */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--color-background);
+            color: var(--color-text-primary);
+            margin: 0;
+            padding: var(--spacing);
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+        }
+
+        /* Main Grid Container */
+        .bento-grid-container {
+            width: 100%;
+            max-width: 1200px; /* Max desktop width */
+            
+            /* Rule 2: Grid Layout for Desktop */
+            display: grid;
+            gap: var(--spacing);
+            
+            /* Define the desktop grid structure */
+            grid-template-columns: repeat(4, 1fr); /* 4 columns for desktop */
+            grid-template-rows: auto;
+        }
+
+        /* Card Styling */
+        .bento-card {
+            background-color: var(--color-surface);
+            border: 1px solid var(--color-border);
+            border-radius: var(--border-radius);
+            padding: 25px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05); /* Subtle shadow */
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .bento-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        /* Typography within Cards */
+        .card-header {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+            line-height: 1.2;
+        }
+
+        .card-subheader {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--color-accent);
+            margin-bottom: 15px;
+        }
+
+        .card-detail {
+            font-size: 0.95rem;
+            color: var(--color-text-secondary);
+            margin-bottom: 8px;
+            font-weight: 400;
+        }
+        
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--color-text-primary);
+            margin-bottom: 10px;
+            border-bottom: 1px dashed var(--color-border);
+            padding-bottom: 5px;
+        }
+        
+        .accent-text {
+            color: var(--color-accent);
+            font-weight: 600;
+        }
+        
+        .list-item {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .list-item li {
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+            color: var(--color-text-secondary);
+            display: flex;
+            align-items: center;
+        }
+        .list-item li::before {
+            content: '•';
+            color: var(--color-accent);
+            font-weight: bold;
+            display: inline-block;
+            width: 1em;
+            margin-left: -1em;
+        }
+
+        /* --- Desktop Grid Sizing (Card Layout Definition) --- */
+        
+        /* Card 1 (Profile): Large box (2x2) - spans 2 columns and 2 rows */
+        #card-profile {
+            grid-column: span 2;
+            grid-row: span 2;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        
+        .social-links a {
+            color: var(--color-accent);
+            text-decoration: none;
+            font-weight: 600;
+            margin-right: 15px;
+            transition: color 0.2s ease;
+        }
+        .social-links a:hover {
+            color: var(--color-text-primary);
+        }
+
+        /* Card 2 (Location): Small box (1x1) */
+        #card-location {
+            grid-column: span 1;
+            grid-row: span 1;
+        }
+
+        /* Card 3 (Tech Stack/Subjects): Medium box (1x1) */
+        #card-tech-stack {
+            grid-column: span 1;
+            grid-row: span 1;
+        }
+        
+        /* Card 4 (Case Study): Medium box (2x1) */
+        #card-case-study {
+            grid-column: span 2;
+            grid-row: span 1;
+        }
+
+        /* Card 5 (Hobby): Small box (1x1) */
+        #card-hobby {
+            grid-column: span 1;
+            grid-row: span 1;
+        }
+
+        /* Card 6 (Playlist): Wide box at the bottom (4x1) */
+        #card-playlist {
+            grid-column: span 4;
+            /* Force to the bottom row */
+        }
+        
+        .large-text {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+        
+        .tagline {
+            font-style: italic;
+            font-size: 1rem;
+            color: var(--color-text-secondary);
+            margin-top: -5px;
+            margin-bottom: 20px;
+        }
+
+        /* --- Rule 2: Mobile Responsiveness (Media Query) --- */
+        @media (max-width: 768px) {
+            body {
+                padding: var(--spacing) 10px; /* Slightly less padding on small screens */
+            }
+            
+            .bento-grid-container {
+                /* Stacked vertically: 1 column */
+                grid-template-columns: 1fr;
+                gap: 15px; /* Slightly tighter gap on mobile */
+            }
+
+            /* All cards should span the full width of the single column */
+            .bento-card {
+                grid-column: 1 / -1 !important; /* Forces all cards to full width */
+                grid-row: auto !important; /* Reverts explicit row spans */
+            }
+            
+            .large-text {
+                font-size: 2rem; /* Shrink large text on mobile */
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="bento-grid-container">
+        
+        <div id="card-profile" class="bento-card">
+            <div>
+                <p class="card-subheader">Student Profile</p>
+                <h1 class="large-text">AKIFINA BINTI BASRI</h1>
+                <p class="tagline">'Innovating food safety.'</p>
+                <p class="card-detail"><span class="accent-text">Program:</span> Food Science</p>
+                <p class="card-detail"><span class="accent-text">Year:</span> Year 1</p>
+            </div>
+            <div class="social-links">
+                <p class="card-title" style="margin-bottom: 5px; border-bottom: none;">Connect</p>
+                <a href="#">LinkedIn</a>
+                <a href="#">GitHub</a>
+                <a href="#">UMT Portal</a>
+            </div>
+        </div>
+
+        <div id="card-location" class="bento-card">
+            <p class="card-subheader">Location & Time</p>
+            <p class="card-detail">Campus: <span class="accent-text">UMT, Kuala Nerus</span></p>
+            <p class="card-detail">Current Time: <span class="accent-text">2:27 PM</span></p>
+            <p class="card-detail" style="font-size: 0.8rem; margin-top: 15px;">Kuala Terengganu, MY</p>
+        </div>
+        
+        <div id="card-tech-stack" class="bento-card">
+            <p class="card-subheader">Core Competencies</p>
+            <ul class="list-item">
+                <li>Food Chemistry</li>
+                <li>Microbiology</li>
+                <li>Excel Data Analysis</li>
+                <li>Basic Lab Analysis</li>
+            </ul>
+        </div>
+        
+        <div id="card-case-study" class="bento-card">
+            <p class="card-subheader">Academic Focus</p>
+            <p class="card-title">Starch Gelatinization in Local Kuih</p>
+            <p class="card-detail">
+                Analyzing the texture profiles and structural changes involved in the starch gelatinization process of traditional Malaysian desserts like *Kuih Lapis*.
+            </p>
+            <p class="card-detail" style="margin-top: 15px;"><span class="accent-text">Discipline:</span> Food Chemistry & Rheology</p>
+        </div>
+
+        <div id="card-hobby" class="bento-card">
+            <p class="card-subheader">Recreation</p>
+            <p class="card-title">Evening Walks at Pantai UMT</p>
+            <p class="card-detail">
+                Enjoying the coastal environment and marine breeze for relaxation and mental reset after long study hours.
+            </p>
+            <p class="card-detail" style="margin-top: 15px;"><span class="accent-text">Activity:</span> Wellness & Fitness</p>
+        </div>
+        
+        <div id="card-playlist" class="bento-card">
+            <p class="card-subheader">Current Jam</p>
+            <p class="card-title">Chill R&B for Focus</p>
+            <p class="card-detail">
+                Placeholder for an embedded music player or a simple link to a dedicated playlist.
+            </p>
+            <a href="#" class="accent-text" style="font-weight: 700;">Open Study Playlist on YouTube Music</a>
+        </div>
+
+    </div>
+
+</body>
+</html>
